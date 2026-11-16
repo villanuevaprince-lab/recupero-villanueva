@@ -15,6 +15,8 @@ export class PostDettaglio implements OnInit {
 
   // Signal in sola lettura del servizio
   readonly post = this.postService.post;
+  readonly loading = this.postService.loading;
+  readonly errore = this.postService.errore;
 
   // Id letto dall'indirizzo /posts/:id
   readonly id = signal(0);

@@ -1,35 +1,63 @@
 <h2>Elenco dei post</h2>
 
-<input
-  #campo
-  type="search"
-  class="form-control mb-3"
-  placeholder="Filtra per titolo"
-  aria-label="Filtra per titolo"
-  (input)="filtro.set(campo.value)"
-/>
-
-<p>Post trovati: {{ postFiltrati().length }} su {{ posts().length }}</p>
-
-<div class="list-group">
-  @for (p of postFiltrati(); track p.id) {
-    <a class="list-group-item list-group-item-action" [routerLink]="['/posts', p.id]">
-      {{ p.id }}. {{ p.title }}
-    </a>
-  } @empty {
-    <div class="list-group-item">Nessun post da mostrare.</div>
-  }
-</div>
-
-<h3 class="mt-4">Nuovo post</h3>
-
-<input #titolo class="form-control mb-2" placeholder="Titolo" aria-label="Titolo" />
-<textarea #testo class="form-control mb-2" rows="3" placeholder="Testo" aria-label="Testo"></textarea>
-<button type="button" class="btn btn-primary" (click)="aggiungi(titolo, testo)">Crea post</button>
-
-@if (creato(); as c) {
-  <div class="alert alert-success mt-3">
-    Post creato dal server con id {{ c.id }}: «{{ c.title }}». JSONPlaceholder è un'API di prova e
-    non lo salva davvero, quindi non compare nell'elenco.
-  </div>
+@if (loading()) {
+  <div class="spinner-border text-primary mb-3" role="status" aria-label="Caricamento"></div>
 }
+@if (errore(); as e) {
+  <div class="alert alert-danger">{{ e }}</div>
+}
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    @if (posts().length > 0) {
+      <input
+        #campo
+        type="search"
+        class="form-control mb-3"
+        placeholder="Filtra per titolo"
+        aria-label="Filtra per titolo"
+        (input)="filtro.set(campo.value)"
+      />
+
+      <p>Post trovati: {{ postFiltrati().length }} su {{ posts().length }}</p>
+
+      <div class="list-group">
+        @for (p of postFiltrati(); track p.id) {
+          <a class="list-group-item list-group-item-action" [routerLink]="['/posts', p.id]">
+            {{ p.id }}. {{ p.title }}
+          </a>
+        } @empty {
+          <div class="list-group-item">Nessun post corrisponde al filtro.</div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="col-lg-4">
+    <h3 class="h5">Nuovo post</h3>
+
+    <input #titolo class="form-control mb-2" placeholder="Titolo" aria-label="Titolo" />
+    <textarea
+      #testo
+      class="form-control mb-2"
+      rows="3"
+      placeholder="Testo"
+      aria-label="Testo"
+    ></textarea>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="loading()"
+      (click)="aggiungi(titolo, testo)"
+    >
+      Crea post
+    </button>
+
+    @if (creato(); as c) {
+      <div class="alert alert-success mt-3">
+        Post creato dal server con id {{ c.id }}: «{{ c.title }}». JSONPlaceholder è un'API di prova
+        e non lo salva davvero, quindi non compare nell'elenco.
+      </div>
+    }
+  </div>
+</div>

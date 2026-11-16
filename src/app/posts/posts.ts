@@ -14,6 +14,8 @@ export class Posts implements OnInit {
   // Signal in sola lettura del servizio
   readonly posts = this.postService.posts;
   readonly creato = this.postService.creato;
+  readonly loading = this.postService.loading;
+  readonly errore = this.postService.errore;
 
   // Testo scritto nel campo di ricerca
   readonly filtro = signal('');
