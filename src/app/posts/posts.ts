@@ -13,6 +13,7 @@ export class Posts implements OnInit {
 
   // Signal in sola lettura del servizio
   readonly posts = this.postService.posts;
+  readonly creato = this.postService.creato;
 
   // Testo scritto nel campo di ricerca
   readonly filtro = signal('');
@@ -25,5 +26,17 @@ export class Posts implements OnInit {
 
   ngOnInit(): void {
     this.postService.caricaPosts();
+  }
+
+  // Invia un nuovo post con una POST, poi svuota i campi
+  aggiungi(titolo: HTMLInputElement, testo: HTMLTextAreaElement): void {
+    const title = titolo.value.trim();
+    const body = testo.value.trim();
+    if (title === '' || body === '') {
+      return;
+    }
+    this.postService.aggiungiPost({ userId: 1, title: title, body: body });
+    titolo.value = '';
+    testo.value = '';
   }
 }

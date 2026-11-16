@@ -20,3 +20,16 @@
     <div class="list-group-item">Nessun post da mostrare.</div>
   }
 </div>
+
+<h3 class="mt-4">Nuovo post</h3>
+
+<input #titolo class="form-control mb-2" placeholder="Titolo" aria-label="Titolo" />
+<textarea #testo class="form-control mb-2" rows="3" placeholder="Testo" aria-label="Testo"></textarea>
+<button type="button" class="btn btn-primary" (click)="aggiungi(titolo, testo)">Crea post</button>
+
+@if (creato(); as c) {
+  <div class="alert alert-success mt-3">
+    Post creato dal server con id {{ c.id }}: «{{ c.title }}». JSONPlaceholder è un'API di prova e
+    non lo salva davvero, quindi non compare nell'elenco.
+  </div>
+}
