@@ -1,59 +1,42 @@
-# RecuperoVillanueva
+# Post di JSONPlaceholder
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.7.
+App Angular che legge e crea i **post** di [JSONPlaceholder](https://jsonplaceholder.typicode.com/)
+con `HttpClient`.
 
-## Development server
+## Che cosa fa
 
-To start a local development server, run:
+- **Servizio** `PostService` (`src/app/services/post-service.ts`): legge l'elenco (`GET /posts`),
+  il singolo post (`GET /posts/:id`) e ne crea di nuovi (`POST /posts`). I dati stanno in signal
+  privati esposti in sola lettura con `asReadonly()`.
+- **Pagina elenco** `/posts`: filtro per titolo e conteggio dei post trovati calcolati con
+  `computed`, più il modulo per creare un nuovo post.
+- **Pagina di dettaglio** `/posts/:id`: mostra il post con i pulsanti «Precedente» e «Successivo».
+- **Caricamento ed errori**: uno spinner durante le richieste e messaggi diversi per l'elemento
+  inesistente (stato 404) e per la rete assente (stato 0).
 
-```bash
-ng serve
-```
+JSONPlaceholder è un'API di prova: alla `POST` risponde `201 Created` con `id: 101`, ma non salva
+nulla. Per questo il post creato non compare nell'elenco e `/posts/101` risponde 404.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Come si avvia
 
 ```bash
-ng generate --help
+npm install
 ```
-
-## Building
-
-To build the project run:
 
 ```bash
-ng build
+npx ng serve
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Poi apri `http://localhost:4200/`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Come si compila
 
 ```bash
-ng test
+npx ng build
 ```
 
-## Running end-to-end tests
+## Come provare gli errori
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **404**: apri `http://localhost:4200/posts/999`, oppure premi «Successivo» dal post n. 100.
+- **Rete assente**: negli strumenti per sviluppatori (F12), scheda **Network**, scegli **Offline**
+  e ricarica l'elenco o cambia post.
