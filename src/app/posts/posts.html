@@ -1,1 +1,22 @@
-<p>posts works!</p>
+<h2>Elenco dei post</h2>
+
+<input
+  #campo
+  type="search"
+  class="form-control mb-3"
+  placeholder="Filtra per titolo"
+  aria-label="Filtra per titolo"
+  (input)="filtro.set(campo.value)"
+/>
+
+<p>Post trovati: {{ postFiltrati().length }} su {{ posts().length }}</p>
+
+<div class="list-group">
+  @for (p of postFiltrati(); track p.id) {
+    <a class="list-group-item list-group-item-action" [routerLink]="['/posts', p.id]">
+      {{ p.id }}. {{ p.title }}
+    </a>
+  } @empty {
+    <div class="list-group-item">Nessun post da mostrare.</div>
+  }
+</div>
